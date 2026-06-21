@@ -4,11 +4,11 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 
 ## 1. Product Scope and Documentation
 
-- [ ] Update `README.md` with a concise product overview for restaurant owners and food-service operators.
-- [ ] Add `docs/PRODUCT_REQUIREMENTS.md` describing the target users, core workflows, and launch success criteria.
-- [ ] Add `docs/USER_ROLES.md` defining permissions for owner, manager, cashier, kitchen staff, and inventory staff.
-- [ ] Add `docs/USER_STORIES.md` with small user stories for dashboard, menu, inventory, order, and reporting workflows.
-- [ ] Add `docs/RELEASE_CHECKLIST.md` with final pre-launch checks for security, data, performance, deployment, and support.
+- [x] Update `README.md` with a concise product overview for restaurant owners and food-service operators.
+- [x] Add `docs/PRODUCT_REQUIREMENTS.md` describing the target users, core workflows, and launch success criteria.
+- [x] Add `docs/USER_ROLES.md` defining permissions for owner, manager, cashier, kitchen staff, and inventory staff.
+- [x] Add `docs/USER_STORIES.md` with small user stories for dashboard, menu, inventory, order, and reporting workflows.
+- [x] Add `docs/RELEASE_CHECKLIST.md` with final pre-launch checks for security, data, performance, deployment, and support.
 
 ## 2. Application Configuration
 
