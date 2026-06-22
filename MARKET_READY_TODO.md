@@ -12,11 +12,11 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 
 ## 2. Application Configuration
 
-- [ ] Create `src/FnBManagement.Web/appsettings.Production.json` for production-safe logging and runtime settings.
-- [ ] Add environment variable documentation to `docs/ENVIRONMENT_VARIABLES.md`.
-- [ ] Add a `ConnectionStrings:DefaultConnection` placeholder to `src/FnBManagement.Web/appsettings.json`.
-- [ ] Create `src/FnBManagement.Web/Options/ApplicationOptions.cs` for product name, support email, currency, and timezone settings.
-- [ ] Register `ApplicationOptions` in `src/FnBManagement.Web/Program.cs`.
+- [x] Create `src/FnBManagement.Web/appsettings.Production.json` for production-safe logging and runtime settings.
+- [x] Add environment variable documentation to `docs/ENVIRONMENT_VARIABLES.md`.
+- [x] Add a `ConnectionStrings:DefaultConnection` placeholder to `src/FnBManagement.Web/appsettings.json`.
+- [x] Create `src/FnBManagement.Web/Options/ApplicationOptions.cs` for product name, support email, currency, and timezone settings.
+- [x] Register `ApplicationOptions` in `src/FnBManagement.Web/Program.cs`.
 
 ## 3. Data Persistence
 
