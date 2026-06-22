@@ -20,11 +20,11 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 
 ## 3. Data Persistence
 
-- [ ] Add `src/FnBManagement.Web/Data/FnBManagementDbContext.cs` for Entity Framework Core persistence.
-- [ ] Replace the temporary `src/FnBManagement.Web/Data/InMemoryStore.cs` data source with database-backed repositories.
-- [ ] Create `src/FnBManagement.Web/Data/Repositories/IMenuRepository.cs` for menu item data access.
-- [ ] Create `src/FnBManagement.Web/Data/Repositories/IInventoryRepository.cs` for inventory data access.
-- [ ] Create `src/FnBManagement.Web/Data/Repositories/IOrderRepository.cs` for order data access.
+- [x] Add `src/FnBManagement.Web/Data/FnBManagementDbContext.cs` for Entity Framework Core persistence.
+- [x] Replace the temporary `src/FnBManagement.Web/Data/InMemoryStore.cs` data source with database-backed repositories.
+- [x] Create `src/FnBManagement.Web/Data/Repositories/IMenuRepository.cs` for menu item data access.
+- [x] Create `src/FnBManagement.Web/Data/Repositories/IInventoryRepository.cs` for inventory data access.
+- [x] Create `src/FnBManagement.Web/Data/Repositories/IOrderRepository.cs` for order data access.
 - [ ] Add initial database migration under `src/FnBManagement.Web/Data/Migrations/`.
 - [ ] Add seed data in `src/FnBManagement.Web/Data/SeedData.cs` for demo restaurants, menu items, inventory, and orders.
 

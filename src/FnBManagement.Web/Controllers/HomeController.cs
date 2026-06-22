@@ -12,9 +12,9 @@ public class HomeController : Controller
         _dashboardService = dashboardService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var viewModel = _dashboardService.BuildDashboard();
+        var viewModel = await _dashboardService.BuildDashboardAsync(cancellationToken);
         return View(viewModel);
     }
 }

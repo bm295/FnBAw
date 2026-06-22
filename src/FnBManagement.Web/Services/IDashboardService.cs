@@ -4,5 +4,5 @@ namespace FnBManagement.Web.Services;
 
 public interface IDashboardService
 {
-    DashboardViewModel BuildDashboard();
+    Task<DashboardViewModel> BuildDashboardAsync(CancellationToken cancellationToken = default);
 }

@@ -1,33 +1,40 @@
-using FnBManagement.Web.Data;
+using FnBManagement.Web.Data.Repositories;
 using FnBManagement.Web.Models;
 
 namespace FnBManagement.Web.Services;
 
 public class DashboardService : IDashboardService
 {
-    private readonly InMemoryStore _store;
+    private readonly IMenuRepository _menuRepository;
+    private readonly IInventoryRepository _inventoryRepository;
+    private readonly IOrderRepository _orderRepository;
 
-    public DashboardService(InMemoryStore store)
+    public DashboardService(
+        IMenuRepository menuRepository,
+        IInventoryRepository inventoryRepository,
+        IOrderRepository orderRepository)
     {
-        _store = store;
+        _menuRepository = menuRepository;
+        _inventoryRepository = inventoryRepository;
+        _orderRepository = orderRepository;
     }
 
-    public DashboardViewModel BuildDashboard()
+    public async Task<DashboardViewModel> BuildDashboardAsync(CancellationToken cancellationToken = default)
     {
         var utcToday = DateTime.UtcNow.Date;
-        var ordersToday = _store.Orders.Where(x => x.OrderedAtUtc.Date == utcToday).ToList();
-        var lowStockItems = _store.InventoryItems.Where(x => x.IsLowStock).ToList();
+        var ordersToday = await _orderRepository.ListForDateAsync(utcToday, cancellationToken);
+        var lowStockItems = await _inventoryRepository.ListLowStockAsync(cancellationToken);
 
         return new DashboardViewModel
         {
-            MenuItemsCount = _store.MenuItems.Count,
-            AvailableMenuItemsCount = _store.MenuItems.Count(x => x.IsAvailable),
-            InventoryItemsCount = _store.InventoryItems.Count,
+            MenuItemsCount = await _menuRepository.CountAsync(cancellationToken),
+            AvailableMenuItemsCount = await _menuRepository.CountAvailableAsync(cancellationToken),
+            InventoryItemsCount = await _inventoryRepository.CountAsync(cancellationToken),
             LowStockItemsCount = lowStockItems.Count,
             OrdersTodayCount = ordersToday.Count,
-            RevenueToday = ordersToday.Sum(x => x.Total),
+            RevenueToday = ordersToday.Sum(order => order.Total),
             LowStockItems = lowStockItems,
-            RecentOrders = _store.Orders.OrderByDescending(x => x.OrderedAtUtc).Take(5).ToList()
+            RecentOrders = await _orderRepository.ListRecentAsync(5, cancellationToken)
         };
     }
 }
