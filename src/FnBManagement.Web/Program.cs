@@ -1,9 +1,11 @@
 using FnBManagement.Web.Data;
 using FnBManagement.Web.Services;
+using FnBManagement.Web.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection(ApplicationOptions.SectionName));
 builder.Services.AddSingleton<InMemoryStore>();
 builder.Services.AddSingleton<IDashboardService, DashboardService>();
 
