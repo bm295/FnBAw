@@ -49,10 +49,10 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 
 ## 6. Inventory Management
 
-- [ ] Create `src/FnBManagement.Web/Controllers/InventoryController.cs` with list, create, edit, adjust stock, and reorder actions.
-- [ ] Create `src/FnBManagement.Web/Views/Inventory/Index.cshtml` with low-stock filtering.
-- [ ] Create `src/FnBManagement.Web/Views/Inventory/Create.cshtml` for adding inventory SKUs.
-- [ ] Create `src/FnBManagement.Web/Views/Inventory/Edit.cshtml` for editing inventory details.
+- [x] Create `src/FnBManagement.Web/Controllers/InventoryController.cs` with list, create, edit, adjust stock, and reorder actions.
+- [x] Create `src/FnBManagement.Web/Views/Inventory/Index.cshtml` with low-stock filtering.
+- [x] Create `src/FnBManagement.Web/Views/Inventory/Create.cshtml` for adding inventory SKUs.
+- [x] Create `src/FnBManagement.Web/Views/Inventory/Edit.cshtml` for editing inventory details.
 - [ ] Create `src/FnBManagement.Web/Views/Inventory/Adjust.cshtml` for stock count changes.
 - [ ] Add inventory change history in `src/FnBManagement.Web/Models/InventoryTransaction.cs`.
 - [ ] Add a reorder recommendation section to `src/FnBManagement.Web/Views/Inventory/Index.cshtml`.

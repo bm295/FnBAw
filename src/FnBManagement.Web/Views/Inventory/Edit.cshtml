@@ -1,0 +1,37 @@
+@model InventoryItem
+
+<section class="panel form-panel">
+    <div class="page-heading">
+        <div>
+            <h2>Edit Inventory SKU</h2>
+            <p>Update item details, current stock quantity, and reorder threshold.</p>
+        </div>
+        <a asp-action="Index">Back to inventory</a>
+    </div>
+
+    <form class="editor-form" method="post" asp-action="Edit" asp-route-id="@Model.Id">
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+        <input asp-for="Id" type="hidden" />
+
+        <label asp-for="Name"></label>
+        <input asp-for="Name" autocomplete="off" />
+        <span asp-validation-for="Name" class="field-validation"></span>
+
+        <label asp-for="Unit"></label>
+        <input asp-for="Unit" autocomplete="off" placeholder="e.g. kg, case, bottle" />
+        <span asp-validation-for="Unit" class="field-validation"></span>
+
+        <label asp-for="QuantityInStock"></label>
+        <input asp-for="QuantityInStock" type="number" min="0" step="0.01" />
+        <span asp-validation-for="QuantityInStock" class="field-validation"></span>
+
+        <label asp-for="ReorderLevel"></label>
+        <input asp-for="ReorderLevel" type="number" min="0" step="0.01" />
+        <span asp-validation-for="ReorderLevel" class="field-validation"></span>
+
+        <div class="form-actions">
+            <button type="submit">Save inventory item</button>
+            <a asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</section>
