@@ -17,6 +17,11 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    await SeedData.InitializeAsync(app.Services);
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
