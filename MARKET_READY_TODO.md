@@ -25,12 +25,12 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 - [x] Create `src/FnBManagement.Web/Data/Repositories/IMenuRepository.cs` for menu item data access.
 - [x] Create `src/FnBManagement.Web/Data/Repositories/IInventoryRepository.cs` for inventory data access.
 - [x] Create `src/FnBManagement.Web/Data/Repositories/IOrderRepository.cs` for order data access.
-- [ ] Add initial database migration under `src/FnBManagement.Web/Data/Migrations/`.
-- [ ] Add seed data in `src/FnBManagement.Web/Data/SeedData.cs` for demo restaurants, menu items, inventory, and orders.
+- [x] Add initial database migration under `src/FnBManagement.Web/Data/Migrations/`.
+- [x] Add seed data in `src/FnBManagement.Web/Data/SeedData.cs` for demo restaurants, menu items, inventory, and orders.
 
 ## 4. Domain Models and Validation
 
-- [ ] Add validation attributes to `src/FnBManagement.Web/Models/MenuItem.cs` for name, category, price, and availability.
+- [x] Add validation attributes to `src/FnBManagement.Web/Models/MenuItem.cs` for name, category, price, and availability.
 - [ ] Add validation attributes to `src/FnBManagement.Web/Models/InventoryItem.cs` for name, unit, quantity, and reorder level.
 - [ ] Add validation attributes to `src/FnBManagement.Web/Models/Order.cs` for order total, order time, and ordered items.
 - [ ] Create `src/FnBManagement.Web/Models/OrderLineItem.cs` to support multiple items per order.
