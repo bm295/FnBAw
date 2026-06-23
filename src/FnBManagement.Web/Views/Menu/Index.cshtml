@@ -1,0 +1,77 @@
+@model MenuIndexViewModel
+
+<section class="panel">
+    <div class="page-heading">
+        <div>
+            <h2>Menu Items</h2>
+            <p>Search menu offerings, filter by category, and review availability.</p>
+        </div>
+        <a class="button" asp-action="Create">Add menu item</a>
+    </div>
+
+    <form class="filter-bar" method="get" asp-action="Index">
+        <label>
+            Search
+            <input type="search" name="searchTerm" value="@Model.SearchTerm" placeholder="Search by item name" />
+        </label>
+        <label>
+            Category
+            <select name="category">
+                <option value="">All categories</option>
+                @foreach (var category in Model.Categories)
+                {
+                    if (string.Equals(Model.Category, category, StringComparison.OrdinalIgnoreCase))
+                    {
+                        <option value="@category" selected>@category</option>
+                    }
+                    else
+                    {
+                        <option value="@category">@category</option>
+                    }
+                }
+            </select>
+        </label>
+        <button type="submit">Apply filters</button>
+        <a asp-action="Index">Clear</a>
+    </form>
+
+    @if (Model.MenuItems.Count == 0)
+    {
+        <p class="empty-state">No menu items match the current filters.</p>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th class="actions-column">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var menuItem in Model.MenuItems)
+                {
+                    <tr>
+                        <td>@menuItem.Name</td>
+                        <td>@menuItem.Category</td>
+                        <td>@menuItem.Price.ToString("C")</td>
+                        <td>@(menuItem.IsAvailable ? "Available" : "Archived")</td>
+                        <td class="actions-column">
+                            <a asp-action="Details" asp-route-id="@menuItem.Id">Details</a>
+                            <a asp-action="Edit" asp-route-id="@menuItem.Id">Edit</a>
+                            @if (menuItem.IsAvailable)
+                            {
+                                <form method="post" asp-action="Archive" asp-route-id="@menuItem.Id">
+                                    <button type="submit">Archive</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

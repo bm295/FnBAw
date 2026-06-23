@@ -50,3 +50,137 @@ body {
   padding: 1rem;
   box-shadow: 0 2px 6px rgba(16, 24, 40, 0.08);
 }
+
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.page-heading h2,
+.page-heading p {
+  margin: 0 0 0.35rem;
+}
+
+.button,
+.filter-bar button,
+.actions-column button {
+  background: #2563eb;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  padding: 0.55rem 0.8rem;
+  text-decoration: none;
+}
+
+.filter-bar {
+  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.filter-bar label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+
+.filter-bar input,
+.filter-bar select {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  min-width: 220px;
+  padding: 0.5rem 0.65rem;
+}
+
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.data-table th,
+.data-table td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.data-table th {
+  background: #f8fafc;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.actions-column {
+  white-space: nowrap;
+}
+
+.actions-column form {
+  display: inline;
+}
+
+.empty-state {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.form-panel {
+  max-width: 720px;
+}
+
+.editor-form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.editor-form label {
+  font-weight: 600;
+}
+
+.editor-form input:not([type="checkbox"]) {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  margin-bottom: 0.4rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.checkbox-field {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.field-validation,
+.validation-summary {
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.form-actions {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.form-actions button {
+  background: #2563eb;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  padding: 0.6rem 0.9rem;
+}

@@ -101,7 +101,7 @@ partial class FnBManagementDbContextModelSnapshot : ModelSnapshot
                 b.ToTable("Orders", (string)null);
             });
 
-        modelBuilder.Entity("FnBManagement.Web.Models.OrderLine", b =>
+        modelBuilder.Entity("FnBManagement.Web.Models.OrderLineItem", b =>
             {
                 b.Property<int>("Id")
                     .ValueGeneratedOnAdd()
@@ -134,7 +134,7 @@ partial class FnBManagementDbContextModelSnapshot : ModelSnapshot
                 b.ToTable("OrderLines", (string)null);
             });
 
-        modelBuilder.Entity("FnBManagement.Web.Models.OrderLine", b =>
+        modelBuilder.Entity("FnBManagement.Web.Models.OrderLineItem", b =>
             {
                 b.HasOne("FnBManagement.Web.Models.Order", null)
                     .WithMany("Lines")
