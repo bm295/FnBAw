@@ -128,7 +128,7 @@ public static class SeedData
             new()
             {
                 OrderedAtUtc = today.AddHours(11).AddMinutes(35),
-                Lines = new List<OrderLine>
+                Lines = new List<OrderLineItem>
                 {
                     CreateOrderLine(menuByName["Harbor Chowder Bowl"], 2),
                     CreateOrderLine(menuByName["Citrus Iced Tea"], 2)
@@ -137,7 +137,7 @@ public static class SeedData
             new()
             {
                 OrderedAtUtc = today.AddHours(12).AddMinutes(10),
-                Lines = new List<OrderLine>
+                Lines = new List<OrderLineItem>
                 {
                     CreateOrderLine(menuByName["Smoked Brisket Sandwich"], 1),
                     CreateOrderLine(menuByName["Roasted Vegetable Grain Bowl"], 1),
@@ -147,7 +147,7 @@ public static class SeedData
             new()
             {
                 OrderedAtUtc = today.AddDays(-1).AddHours(18).AddMinutes(20),
-                Lines = new List<OrderLine>
+                Lines = new List<OrderLineItem>
                 {
                     CreateOrderLine(menuByName["Roasted Vegetable Grain Bowl"], 3),
                     CreateOrderLine(menuByName["Seasonal Berry Tart"], 2)
@@ -156,9 +156,9 @@ public static class SeedData
         };
     }
 
-    private static OrderLine CreateOrderLine(MenuItem menuItem, int quantity)
+    private static OrderLineItem CreateOrderLine(MenuItem menuItem, int quantity)
     {
-        return new OrderLine
+        return new OrderLineItem
         {
             MenuItemId = menuItem.Id,
             MenuItemName = menuItem.Name,

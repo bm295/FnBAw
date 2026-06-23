@@ -31,17 +31,17 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 ## 4. Domain Models and Validation
 
 - [x] Add validation attributes to `src/FnBManagement.Web/Models/MenuItem.cs` for name, category, price, and availability.
-- [ ] Add validation attributes to `src/FnBManagement.Web/Models/InventoryItem.cs` for name, unit, quantity, and reorder level.
-- [ ] Add validation attributes to `src/FnBManagement.Web/Models/Order.cs` for order total, order time, and ordered items.
-- [ ] Create `src/FnBManagement.Web/Models/OrderLineItem.cs` to support multiple items per order.
-- [ ] Add `src/FnBManagement.Web/Models/Restaurant.cs` for restaurant profile data.
-- [ ] Add `src/FnBManagement.Web/Models/Supplier.cs` for inventory supplier tracking.
+- [x] Add validation attributes to `src/FnBManagement.Web/Models/InventoryItem.cs` for name, unit, quantity, and reorder level.
+- [x] Add validation attributes to `src/FnBManagement.Web/Models/Order.cs` for order total, order time, and ordered items.
+- [x] Create `src/FnBManagement.Web/Models/OrderLineItem.cs` to support multiple items per order.
+- [x] Add `src/FnBManagement.Web/Models/Restaurant.cs` for restaurant profile data.
+- [x] Add `src/FnBManagement.Web/Models/Supplier.cs` for inventory supplier tracking.
 
 ## 5. Menu Management
 
-- [ ] Create `src/FnBManagement.Web/Controllers/MenuController.cs` with list, details, create, edit, and archive actions.
-- [ ] Create `src/FnBManagement.Web/Views/Menu/Index.cshtml` to list menu items with search and category filters.
-- [ ] Create `src/FnBManagement.Web/Views/Menu/Create.cshtml` for adding a new menu item.
+- [x] Create `src/FnBManagement.Web/Controllers/MenuController.cs` with list, details, create, edit, and archive actions.
+- [x] Create `src/FnBManagement.Web/Views/Menu/Index.cshtml` to list menu items with search and category filters.
+- [x] Create `src/FnBManagement.Web/Views/Menu/Create.cshtml` for adding a new menu item.
 - [ ] Create `src/FnBManagement.Web/Views/Menu/Edit.cshtml` for updating menu item details.
 - [ ] Create `src/FnBManagement.Web/Views/Menu/Details.cshtml` to show menu item pricing, availability, and inventory links.
 - [ ] Add server-side validation messages to all menu forms.
