@@ -3,6 +3,7 @@ using FnBManagement.Web.Data.Repositories;
 using FnBManagement.Web.Services;
 using FnBManagement.Web.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,15 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    ForwardLimit = 1,
+    // Trust the front proxy/load balancer so AWS can pass the original scheme and client IP.
+    KnownIPNetworks = { },
+    KnownProxies = { }
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

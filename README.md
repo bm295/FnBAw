@@ -1,8 +1,8 @@
-# FnB Management Web Application (.NET 14 / C# 10)
+# FnB Management Web Application (.NET 10 / C# 10)
 
 FnB Management is a web application for restaurant owners and food-service operators who need one place to monitor daily sales, menu availability, inventory risk, and order activity. It helps operators spot low-stock ingredients, understand revenue for the current business day, keep menu items service-ready, and prepare for a more complete market launch with role-based workflows and reporting.
 
-> Note: the project is configured for `net14.0` per requirement and locks language version to C# 10.
+> Note: the project is configured for `net10.0` and uses the SDK default C# language version.
 
 ## Product overview
 
