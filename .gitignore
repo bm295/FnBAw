@@ -6,3 +6,4 @@ obj/
 *.db
 *.sqlite
 *.log
+TestResults/
