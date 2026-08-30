@@ -1,5 +1,6 @@
 using FnBManagement.Web.Data.Repositories;
 using FnBManagement.Web.Models;
+using FnBManagement.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FnBManagement.Web.Controllers;
@@ -7,43 +8,17 @@ namespace FnBManagement.Web.Controllers;
 public class MenuController : Controller
 {
     private readonly IMenuRepository _menuRepository;
+    private readonly IMenuIndexService _menuIndexService;
 
-    public MenuController(IMenuRepository menuRepository)
+    public MenuController(IMenuRepository menuRepository, IMenuIndexService menuIndexService)
     {
         _menuRepository = menuRepository;
+        _menuIndexService = menuIndexService;
     }
 
     public async Task<IActionResult> Index(string? searchTerm, string? category, CancellationToken cancellationToken)
     {
-        var menuItems = await _menuRepository.ListAsync(cancellationToken);
-        var categories = menuItems
-            .Select(menuItem => menuItem.Category)
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(menuCategory => menuCategory)
-            .ToList();
-
-        var filteredItems = menuItems.AsEnumerable();
-
-        if (!string.IsNullOrWhiteSpace(searchTerm))
-        {
-            filteredItems = filteredItems.Where(menuItem =>
-                menuItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
-        }
-
-        if (!string.IsNullOrWhiteSpace(category))
-        {
-            filteredItems = filteredItems.Where(menuItem =>
-                string.Equals(menuItem.Category, category, StringComparison.OrdinalIgnoreCase));
-        }
-
-        var viewModel = new MenuIndexViewModel
-        {
-            MenuItems = filteredItems.ToList(),
-            Categories = categories,
-            SearchTerm = searchTerm,
-            Category = category
-        };
-
+        var viewModel = await _menuIndexService.BuildIndexAsync(searchTerm, category, cancellationToken);
         return View(viewModel);
     }
 
