@@ -1,4 +1,4 @@
-# FnB Management Web Application (.NET 10 / C# 10)
+# FnB Management (Angular / .NET 10)
 
 FnB Management is a web application for restaurant owners and food-service operators who need one place to monitor daily sales, menu availability, inventory risk, and order activity. It helps operators spot low-stock ingredients, understand revenue for the current business day, keep menu items service-ready, and prepare for a more complete market launch with role-based workflows and reporting.
 
@@ -25,15 +25,26 @@ The application is designed for small and mid-sized restaurants, cafes, quick-se
 
 ## Project structure
 
-- `src/FnBManagement.Web` - ASP.NET Core MVC application
+- `client` - Angular client
+- `src/FnBManagement.Web` - ASP.NET Core JSON API
 - `infra/aws` - AWS deployment assets (Dockerfile, ECS task definition, and deployment notes)
 - `docs` - product requirements, roles, user stories, and launch readiness documentation
 
-## Run locally (when .NET 14 SDK is available)
+## Run locally
+
+Requires .NET 10 SDK, Node.js 24, and a PostgreSQL connection string configured under `ConnectionStrings:DefaultConnection`. Run these in separate terminals:
 
 ```bash
-dotnet run --project src/FnBManagement.Web/FnBManagement.Web.csproj
+dotnet run --project src/FnBManagement.Web/FnBManagement.Web.csproj --urls http://localhost:5080
 ```
+
+```bash
+cd client
+npm ci
+npm start
+```
+
+Open `http://localhost:4200`. The Angular dev server proxies `/api` to .NET. The AWS Dockerfile builds Angular and serves the resulting static files from .NET.
 
 ## AWS deployment options
 

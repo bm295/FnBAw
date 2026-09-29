@@ -3,18 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FnBManagement.Web.Controllers;
 
-public class HomeController : Controller
+[ApiController]
+[Route("api/dashboard")]
+public class HomeController(IDashboardService dashboardService) : ControllerBase
 {
-    private readonly IDashboardService _dashboardService;
-
-    public HomeController(IDashboardService dashboardService)
-    {
-        _dashboardService = dashboardService;
-    }
-
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
-    {
-        var viewModel = await _dashboardService.BuildDashboardAsync(cancellationToken);
-        return View(viewModel);
-    }
+    [HttpGet]
+    public async Task<IActionResult> Index(CancellationToken cancellationToken) =>
+        Ok(await dashboardService.BuildDashboardAsync(cancellationToken));
 }

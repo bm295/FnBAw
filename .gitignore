@@ -7,3 +7,6 @@ obj/
 *.sqlite
 *.log
 TestResults/
+client/node_modules/
+client/dist/
+client/.angular/

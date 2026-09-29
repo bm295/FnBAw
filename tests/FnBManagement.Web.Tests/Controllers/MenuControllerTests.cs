@@ -9,7 +9,7 @@ namespace FnBManagement.Web.Tests.Controllers;
 public class MenuControllerTests
 {
     [Fact]
-    public async Task Index_ReturnsViewModelFromMenuIndexService()
+    public async Task Index_ReturnsApiPayloadFromMenuIndexService()
     {
         var viewModel = new MenuIndexViewModel
         {
@@ -29,8 +29,8 @@ public class MenuControllerTests
 
         var result = await controller.Index("burger", "Mains", CancellationToken.None);
 
-        var viewResult = Assert.IsType<ViewResult>(result);
-        Assert.Same(viewModel, viewResult.Model);
+        var apiResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Same(viewModel, apiResult.Value);
     }
 
     private sealed class FakeMenuRepository : IMenuRepository

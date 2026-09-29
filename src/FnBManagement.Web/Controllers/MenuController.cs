@@ -5,81 +5,36 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FnBManagement.Web.Controllers;
 
-public class MenuController : Controller
+[ApiController]
+[Route("api/menu")]
+public class MenuController(IMenuRepository menuRepository, IMenuIndexService menuIndexService) : ControllerBase
 {
-    private readonly IMenuRepository _menuRepository;
-    private readonly IMenuIndexService _menuIndexService;
+    [HttpGet]
+    public async Task<IActionResult> Index(string? searchTerm, string? category, CancellationToken cancellationToken) =>
+        Ok(await menuIndexService.BuildIndexAsync(searchTerm, category, cancellationToken));
 
-    public MenuController(IMenuRepository menuRepository, IMenuIndexService menuIndexService)
-    {
-        _menuRepository = menuRepository;
-        _menuIndexService = menuIndexService;
-    }
-
-    public async Task<IActionResult> Index(string? searchTerm, string? category, CancellationToken cancellationToken)
-    {
-        var viewModel = await _menuIndexService.BuildIndexAsync(searchTerm, category, cancellationToken);
-        return View(viewModel);
-    }
-
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> Details(int id, CancellationToken cancellationToken)
     {
-        var menuItem = await _menuRepository.GetByIdAsync(id, cancellationToken);
-
-        return menuItem is null ? NotFound() : View(menuItem);
-    }
-
-    public IActionResult Create()
-    {
-        return View(new MenuItem());
+        var item = await menuRepository.GetByIdAsync(id, cancellationToken);
+        return item is null ? NotFound() : Ok(item);
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(MenuItem menuItem, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create([FromBody] MenuItem item, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(menuItem);
-        }
-
-        await _menuRepository.AddAsync(menuItem, cancellationToken);
-
-        return RedirectToAction(nameof(Index));
+        await menuRepository.AddAsync(item, cancellationToken);
+        return CreatedAtAction(nameof(Details), new { id = item.Id }, item);
     }
 
-    public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Edit(int id, [FromBody] MenuItem item, CancellationToken cancellationToken)
     {
-        var menuItem = await _menuRepository.GetByIdAsync(id, cancellationToken);
-
-        return menuItem is null ? NotFound() : View(menuItem);
+        if (id != item.Id) return BadRequest();
+        return await menuRepository.UpdateAsync(item, cancellationToken) ? NoContent() : NotFound();
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, MenuItem menuItem, CancellationToken cancellationToken)
-    {
-        if (id != menuItem.Id)
-        {
-            return BadRequest();
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return View(menuItem);
-        }
-
-        var updated = await _menuRepository.UpdateAsync(menuItem, cancellationToken);
-
-        return updated ? RedirectToAction(nameof(Index)) : NotFound();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Archive(int id, CancellationToken cancellationToken)
-    {
-        var archived = await _menuRepository.ArchiveAsync(id, cancellationToken);
-
-        return archived ? RedirectToAction(nameof(Index)) : NotFound();
-    }
+    [HttpPost("{id:int}/archive")]
+    public async Task<IActionResult> Archive(int id, CancellationToken cancellationToken) =>
+        await menuRepository.ArchiveAsync(id, cancellationToken) ? NoContent() : NotFound();
 }

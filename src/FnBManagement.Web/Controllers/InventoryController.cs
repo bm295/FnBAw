@@ -4,124 +4,47 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FnBManagement.Web.Controllers;
 
-public class InventoryController : Controller
+[ApiController]
+[Route("api/inventory")]
+public class InventoryController(IInventoryRepository inventoryRepository) : ControllerBase
 {
-    private readonly IInventoryRepository _inventoryRepository;
-
-    public InventoryController(IInventoryRepository inventoryRepository)
-    {
-        _inventoryRepository = inventoryRepository;
-    }
-
+    [HttpGet]
     public async Task<IActionResult> Index(string? searchTerm, bool lowStockOnly = false, CancellationToken cancellationToken = default)
     {
-        var inventoryItems = await _inventoryRepository.ListAsync(cancellationToken);
-        var filteredItems = inventoryItems.AsEnumerable();
-
-        if (!string.IsNullOrWhiteSpace(searchTerm))
-        {
-            filteredItems = filteredItems.Where(inventoryItem =>
-                inventoryItem.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
-        }
-
-        if (lowStockOnly)
-        {
-            filteredItems = filteredItems.Where(inventoryItem => inventoryItem.IsLowStock);
-        }
-
-        ViewData["SearchTerm"] = searchTerm;
-        ViewData["LowStockOnly"] = lowStockOnly;
-
-        return View(filteredItems.ToList());
+        var items = await inventoryRepository.ListAsync(cancellationToken);
+        return Ok(items.Where(item =>
+            (string.IsNullOrWhiteSpace(searchTerm) || item.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) &&
+            (!lowStockOnly || item.IsLowStock)).ToList());
     }
 
-    public IActionResult Create()
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> Details(int id, CancellationToken cancellationToken)
     {
-        return View(new InventoryItem());
+        var item = await inventoryRepository.GetByIdAsync(id, cancellationToken);
+        return item is null ? NotFound() : Ok(item);
     }
+
+    [HttpGet("low-stock")]
+    public async Task<IActionResult> Reorder(CancellationToken cancellationToken) =>
+        Ok(await inventoryRepository.ListLowStockAsync(cancellationToken));
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(InventoryItem inventoryItem, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create([FromBody] InventoryItem item, CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(inventoryItem);
-        }
-
-        await _inventoryRepository.AddAsync(inventoryItem, cancellationToken);
-
-        return RedirectToAction(nameof(Index));
+        await inventoryRepository.AddAsync(item, cancellationToken);
+        return CreatedAtAction(nameof(Details), new { id = item.Id }, item);
     }
 
-    public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Edit(int id, [FromBody] InventoryItem item, CancellationToken cancellationToken)
     {
-        var inventoryItem = await _inventoryRepository.GetByIdAsync(id, cancellationToken);
-
-        return inventoryItem is null ? NotFound() : View(inventoryItem);
+        if (id != item.Id) return BadRequest();
+        return await inventoryRepository.UpdateAsync(item, cancellationToken) ? NoContent() : NotFound();
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, InventoryItem inventoryItem, CancellationToken cancellationToken)
-    {
-        if (id != inventoryItem.Id)
-        {
-            return BadRequest();
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return View(inventoryItem);
-        }
-
-        var updated = await _inventoryRepository.UpdateAsync(inventoryItem, cancellationToken);
-
-        return updated ? RedirectToAction(nameof(Index)) : NotFound();
-    }
-
-    public async Task<IActionResult> AdjustStock(int id, CancellationToken cancellationToken)
-    {
-        var inventoryItem = await _inventoryRepository.GetByIdAsync(id, cancellationToken);
-
-        return inventoryItem is null ? NotFound() : View(inventoryItem);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AdjustStock(int id, decimal adjustment, CancellationToken cancellationToken)
-    {
-        var adjusted = await _inventoryRepository.AdjustStockAsync(id, adjustment, cancellationToken);
-
-        if (!adjusted)
-        {
-            return NotFound();
-        }
-
-        return RedirectToAction(nameof(Index));
-    }
-
-    public async Task<IActionResult> Reorder(CancellationToken cancellationToken)
-    {
-        var lowStockItems = await _inventoryRepository.ListLowStockAsync(cancellationToken);
-
-        return View(lowStockItems);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Reorder(int id, decimal quantity, CancellationToken cancellationToken)
-    {
-        if (quantity <= 0)
-        {
-            ModelState.AddModelError(nameof(quantity), "Reorder quantity must be greater than zero.");
-            var lowStockItems = await _inventoryRepository.ListLowStockAsync(cancellationToken);
-
-            return View(lowStockItems);
-        }
-
-        var reordered = await _inventoryRepository.AdjustStockAsync(id, quantity, cancellationToken);
-
-        return reordered ? RedirectToAction(nameof(Index)) : NotFound();
-    }
+    [HttpPost("{id:int}/adjust")]
+    public async Task<IActionResult> AdjustStock(int id, [FromBody] StockAdjustment request, CancellationToken cancellationToken) =>
+        await inventoryRepository.AdjustStockAsync(id, request.Quantity, cancellationToken) ? NoContent() : NotFound();
 }
+
+public record StockAdjustment(decimal Quantity);
