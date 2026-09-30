@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
-import { DashboardPage, InventoryPage, MenuPage } from './app';
+import { DashboardPage } from './dashboard/dashboard-page';
+import { InventoryPage } from './inventory/inventory-page';
+import { MenuPage } from './menu/menu-page';
 
 export const routes: Routes = [
   { path: '', component: DashboardPage },

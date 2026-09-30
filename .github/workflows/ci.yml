@@ -27,8 +27,33 @@ jobs:
       - name: Test with coverage
         run: dotnet test FnBManagement.sln --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
-      - name: Upload coverage artifacts
-        uses: actions/upload-artifact@v4
+      - name: C# coverage summary
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          reports = list(Path('TestResults').rglob('coverage.cobertura.xml'))
+          if not reports:
+              raise SystemExit('No C# coverage report found')
+          for report in reports:
+              root = ET.parse(report).getroot()
+              print(f"C# coverage ({report}): lines {float(root.attrib['line-rate']):.1%}, branches {float(root.attrib['branch-rate']):.1%}")
+          PY
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          name: coverage-results
-          path: TestResults
+          node-version: 24
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install Angular dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Angular tests with coverage
+        working-directory: client
+        run: npm test -- --coverage --no-watch

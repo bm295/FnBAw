@@ -15,7 +15,7 @@ public class DashboardServiceTests
             4,
             [
                 new InventoryItem { Id = 1, Name = "Rice", Unit = "kg", QuantityInStock = 2, ReorderLevel = 5 },
-                new InventoryItem { Id = 2, Name = "Oil", Unit = "l", QuantityInStock = 10, ReorderLevel = 3 }
+                new InventoryItem { Id = 2, Name = "Oil", Unit = "l", QuantityInStock = 1, ReorderLevel = 3 }
             ]);
         var orderRepository = new FakeOrderRepository(
             [
@@ -51,6 +51,21 @@ public class DashboardServiceTests
         Assert.Equal(30.00m, dashboard.RevenueToday);
         Assert.Equal(2, dashboard.LowStockItems.Count);
         Assert.Equal(2, dashboard.RecentOrders.Count);
+    }
+
+    [Fact]
+    public async Task BuildDashboardAsync_IncludesLowStockItemsInAlerts()
+    {
+        var milk = new InventoryItem { Id = 1, Name = "Milk", Unit = "units", QuantityInStock = 2, ReorderLevel = 5 };
+        var service = new DashboardService(
+            new FakeMenuRepository(0, 0),
+            new FakeInventoryRepository(2, [milk]),
+            new FakeOrderRepository([]));
+
+        var dashboard = await service.BuildDashboardAsync();
+
+        Assert.Equal(1, dashboard.LowStockItemsCount);
+        Assert.Same(milk, Assert.Single(dashboard.LowStockItems));
     }
 
     private sealed class FakeMenuRepository : IMenuRepository

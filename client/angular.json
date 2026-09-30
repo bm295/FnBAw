@@ -77,6 +77,12 @@
           },
           "defaultConfiguration": "production"
         },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverageReporters": ["text-summary"]
+          }
+        },
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": { "proxyConfig": "proxy.conf.json" },

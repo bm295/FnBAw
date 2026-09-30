@@ -5,7 +5,6 @@ Status: Done
 ## Dashboard workflows
 
 - As an owner, I want to see today’s revenue and order count so that I can understand current business performance.
-- As a manager, I want to see low-stock alerts on the dashboard so that I can prevent service interruptions.
 - As a shift lead, I want to see recent orders so that I can quickly investigate service issues.
 
 ## Menu workflows

@@ -1,0 +1,11 @@
+<div class="heading"><div><h1>Dashboard</h1><p>Overview of today's operations.</p></div></div>
+  @if (error) { <p class="error">{{ error }}</p> }
+  @if (data(); as dashboard) {
+    <section class="kpis">
+      <article><span>Menu items</span><strong>{{dashboard.menuItemsCount}}</strong></article><article><span>Available</span><strong>{{dashboard.availableMenuItemsCount}}</strong></article>
+      <article><span>Inventory SKUs</span><strong>{{dashboard.inventoryItemsCount}}</strong></article><article><span>Low stock</span><strong>{{dashboard.lowStockItemsCount}}</strong></article>
+      <article><span>Orders today</span><strong>{{dashboard.ordersTodayCount}}</strong></article><article><span>Revenue today</span><strong>{{dashboard.revenueToday | currency}}</strong></article>
+    </section>
+    <section class="panels"><article class="panel"><h2>Low stock alerts</h2>@for (item of dashboard.lowStockItems; track item.id) { <p><a routerLink="/inventory">{{item.name}}</a>: {{item.quantityInStock}} {{item.unit}} in stock (reorder at {{item.reorderLevel}} {{item.unit}})</p> } @empty { <p>No low stock items.</p> }</article>
+    <article class="panel"><h2>Recent orders</h2>@for (order of dashboard.recentOrders; track order.id) { <p>#{{order.id}} · {{order.orderedAtUtc | date:'medium'}} · {{order.total | currency}}</p> } @empty { <p>No recent orders.</p> }</article></section>
+  }
