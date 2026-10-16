@@ -1,6 +1,6 @@
-using FnBManagement.Web.Data.Repositories;
-using FnBManagement.Web.Models;
-using FnBManagement.Web.Services;
+using FnBManagement.Web.Application.Abstractions;
+using FnBManagement.Web.Application.Dashboard;
+using FnBManagement.Web.Domain.Entities;
 
 namespace FnBManagement.Web.Tests.Services;
 

@@ -20,22 +20,22 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 
 ## 3. Data Persistence
 
-- [x] Add `src/FnBManagement.Web/Data/FnBManagementDbContext.cs` for Entity Framework Core persistence.
-- [x] Replace the temporary `src/FnBManagement.Web/Data/InMemoryStore.cs` data source with database-backed repositories.
-- [x] Create `src/FnBManagement.Web/Data/Repositories/IMenuRepository.cs` for menu item data access.
-- [x] Create `src/FnBManagement.Web/Data/Repositories/IInventoryRepository.cs` for inventory data access.
-- [x] Create `src/FnBManagement.Web/Data/Repositories/IOrderRepository.cs` for order data access.
-- [x] Add initial database migration under `src/FnBManagement.Web/Data/Migrations/`.
-- [x] Add seed data in `src/FnBManagement.Web/Data/SeedData.cs` for demo restaurants, menu items, inventory, and orders.
+- [x] Add `src/FnBManagement.Web/Infrastructure/Persistence/FnBManagementDbContext.cs` for Entity Framework Core persistence.
+- [x] Replace the temporary `src/FnBManagement.Web/Infrastructure/Persistence/InMemoryStore.cs` data source with database-backed repositories.
+- [x] Create `src/FnBManagement.Web/Application/Abstractions/IMenuRepository.cs` for menu item data access.
+- [x] Create `src/FnBManagement.Web/Application/Abstractions/IInventoryRepository.cs` for inventory data access.
+- [x] Create `src/FnBManagement.Web/Application/Abstractions/IOrderRepository.cs` for order data access.
+- [x] Add initial database migration under `src/FnBManagement.Web/Infrastructure/Persistence/Migrations/`.
+- [x] Add seed data in `src/FnBManagement.Web/Infrastructure/Persistence/SeedData.cs` for demo restaurants, menu items, inventory, and orders.
 
 ## 4. Domain Models and Validation
 
-- [x] Add validation attributes to `src/FnBManagement.Web/Models/MenuItem.cs` for name, category, price, and availability.
-- [x] Add validation attributes to `src/FnBManagement.Web/Models/InventoryItem.cs` for name, unit, quantity, and reorder level.
-- [x] Add validation attributes to `src/FnBManagement.Web/Models/Order.cs` for order total, order time, and ordered items.
-- [x] Create `src/FnBManagement.Web/Models/OrderLineItem.cs` to support multiple items per order.
-- [x] Add `src/FnBManagement.Web/Models/Restaurant.cs` for restaurant profile data.
-- [x] Add `src/FnBManagement.Web/Models/Supplier.cs` for inventory supplier tracking.
+- [x] Add validation attributes to `src/FnBManagement.Web/Domain/Entities/MenuItem.cs` for name, category, price, and availability.
+- [x] Add validation attributes to `src/FnBManagement.Web/Domain/Entities/InventoryItem.cs` for name, unit, quantity, and reorder level.
+- [x] Add validation attributes to `src/FnBManagement.Web/Domain/Entities/Order.cs` for order total, order time, and ordered items.
+- [x] Create `src/FnBManagement.Web/Domain/Entities/OrderLineItem.cs` to support multiple items per order.
+- [x] Add `src/FnBManagement.Web/Domain/Entities/Restaurant.cs` for restaurant profile data.
+- [x] Add `src/FnBManagement.Web/Domain/Entities/Supplier.cs` for inventory supplier tracking.
 
 ## 5. Menu Management
 
@@ -54,7 +54,7 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 - [x] Create `src/FnBManagement.Web/Views/Inventory/Create.cshtml` for adding inventory SKUs.
 - [x] Create `src/FnBManagement.Web/Views/Inventory/Edit.cshtml` for editing inventory details.
 - [ ] Create `src/FnBManagement.Web/Views/Inventory/Adjust.cshtml` for stock count changes.
-- [ ] Add inventory change history in `src/FnBManagement.Web/Models/InventoryTransaction.cs`.
+- [ ] Add inventory change history in `src/FnBManagement.Web/Domain/Entities/InventoryTransaction.cs`.
 - [ ] Add a reorder recommendation section to `src/FnBManagement.Web/Views/Inventory/Index.cshtml`.
 
 ## 7. Order Management
@@ -63,15 +63,15 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 - [ ] Create `src/FnBManagement.Web/Views/Orders/Index.cshtml` to show today’s orders and order status.
 - [ ] Create `src/FnBManagement.Web/Views/Orders/Create.cshtml` for quick order entry.
 - [ ] Create `src/FnBManagement.Web/Views/Orders/Details.cshtml` for itemized order details.
-- [ ] Add `OrderStatus` values to `src/FnBManagement.Web/Models/Order.cs`.
+- [ ] Add `OrderStatus` values to `src/FnBManagement.Web/Domain/Entities/Order.cs`.
 - [ ] Deduct inventory automatically when an order is completed.
 - [ ] Restore inventory automatically when an order is cancelled.
 
 ## 8. Dashboard and Reporting
 
-- [ ] Update `src/FnBManagement.Web/Services/DashboardService.cs` to use persisted order, inventory, and menu repositories.
-- [ ] Add gross margin KPI to `src/FnBManagement.Web/Models/DashboardViewModel.cs`.
-- [ ] Add best-selling menu items KPI to `src/FnBManagement.Web/Models/DashboardViewModel.cs`.
+- [ ] Update `src/FnBManagement.Web/Application/Dashboard/DashboardService.cs` to use persisted order, inventory, and menu repositories.
+- [ ] Add gross margin KPI to `src/FnBManagement.Web/Application/Dashboard/DashboardViewModel.cs`.
+- [ ] Add best-selling menu items KPI to `src/FnBManagement.Web/Application/Dashboard/DashboardViewModel.cs`.
 - [ ] Update `src/FnBManagement.Web/Views/Home/Index.cshtml` with revenue, low-stock, best-seller, and margin sections.
 - [ ] Create `src/FnBManagement.Web/Controllers/ReportsController.cs` for sales and inventory reports.
 - [ ] Create `src/FnBManagement.Web/Views/Reports/Sales.cshtml` for date-range revenue reporting.
@@ -82,7 +82,7 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 ## 9. Authentication and Authorization
 
 - [ ] Add ASP.NET Core Identity to `src/FnBManagement.Web/FnBManagement.Web.csproj`.
-- [ ] Create `src/FnBManagement.Web/Models/ApplicationUser.cs` for user profile data.
+- [ ] Create `src/FnBManagement.Web/Domain/Entities/ApplicationUser.cs` for user profile data.
 - [ ] Add login, logout, register, and forgot-password pages under `src/FnBManagement.Web/Views/Account/`.
 - [ ] Require authentication for dashboard, menu, inventory, order, and report pages.
 - [ ] Add role-based authorization policies in `src/FnBManagement.Web/Program.cs`.
@@ -121,7 +121,7 @@ This checklist breaks the remaining work into small, clear tasks to prepare the 
 ## 13. Testing
 
 - [ ] Create `tests/FnBManagement.Web.Tests/FnBManagement.Web.Tests.csproj` for unit and integration tests.
-- [ ] Add unit tests for `src/FnBManagement.Web/Services/DashboardService.cs`.
+- [ ] Add unit tests for `src/FnBManagement.Web/Application/Dashboard/DashboardService.cs`.
 - [ ] Add unit tests for menu validation rules.
 - [ ] Add unit tests for inventory low-stock rules.
 - [ ] Add unit tests for order total calculation.

@@ -1,6 +1,7 @@
-using FnBManagement.Web.Data;
-using FnBManagement.Web.Data.Repositories;
-using FnBManagement.Web.Models;
+using FnBManagement.Web.Infrastructure.Persistence.Repositories;
+using FnBManagement.Web.Application.Abstractions;
+using FnBManagement.Web.Domain.Entities;
+using FnBManagement.Web.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace FnBManagement.Web.Tests.Data.Repositories;

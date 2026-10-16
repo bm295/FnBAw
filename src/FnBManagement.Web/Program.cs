@@ -1,6 +1,9 @@
-using FnBManagement.Web.Data;
-using FnBManagement.Web.Data.Repositories;
-using FnBManagement.Web.Services;
+using FnBManagement.Web.Application.Abstractions;
+using FnBManagement.Web.Application.Dashboard;
+using FnBManagement.Web.Application.Inventory;
+using FnBManagement.Web.Application.Menu;
+using FnBManagement.Web.Infrastructure.Persistence;
+using FnBManagement.Web.Infrastructure.Persistence.Repositories;
 using FnBManagement.Web.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -15,6 +18,7 @@ builder.Services.AddDbContext<FnBManagementDbContext>(options =>
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IMenuIndexService, MenuIndexService>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryIndexService, InventoryIndexService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 

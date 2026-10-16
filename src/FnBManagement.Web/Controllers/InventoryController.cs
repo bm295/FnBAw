@@ -1,21 +1,18 @@
-using FnBManagement.Web.Data.Repositories;
-using FnBManagement.Web.Models;
+using FnBManagement.Web.Application.Abstractions;
+using FnBManagement.Web.Application.Inventory;
+using FnBManagement.Web.Contracts.Inventory;
+using FnBManagement.Web.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FnBManagement.Web.Controllers;
 
 [ApiController]
 [Route("api/inventory")]
-public class InventoryController(IInventoryRepository inventoryRepository) : ControllerBase
+public class InventoryController(IInventoryRepository inventoryRepository, IInventoryIndexService inventoryIndexService) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchTerm, bool lowStockOnly = false, CancellationToken cancellationToken = default)
-    {
-        var items = await inventoryRepository.ListAsync(cancellationToken);
-        return Ok(items.Where(item =>
-            (string.IsNullOrWhiteSpace(searchTerm) || item.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) &&
-            (!lowStockOnly || item.IsLowStock)).ToList());
-    }
+    public async Task<IActionResult> Index(string? searchTerm, bool lowStockOnly = false, CancellationToken cancellationToken = default) =>
+        Ok(await inventoryIndexService.SearchAsync(searchTerm, lowStockOnly, cancellationToken));
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Details(int id, CancellationToken cancellationToken)
@@ -46,5 +43,3 @@ public class InventoryController(IInventoryRepository inventoryRepository) : Con
     public async Task<IActionResult> AdjustStock(int id, [FromBody] StockAdjustment request, CancellationToken cancellationToken) =>
         await inventoryRepository.AdjustStockAsync(id, request.Quantity, cancellationToken) ? NoContent() : NotFound();
 }
-
-public record StockAdjustment(decimal Quantity);

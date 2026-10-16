@@ -1,4 +1,4 @@
-using FnBManagement.Web.Services;
+using FnBManagement.Web.Application.Dashboard;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FnBManagement.Web.Controllers;

@@ -1,11 +1,34 @@
-using FnBManagement.Web.Data.Repositories;
-using FnBManagement.Web.Models;
-using FnBManagement.Web.Services;
+using FnBManagement.Web.Application.Abstractions;
+using FnBManagement.Web.Application.Menu;
+using FnBManagement.Web.Domain.Entities;
 
 namespace FnBManagement.Web.Tests.Services;
 
 public class MenuIndexServiceTests
 {
+    [Theory]
+    [InlineData("  CHICKEN \"spicy sauce\"  ", 1)]
+    [InlineData("sauce chicken spicy", 2)]
+    [InlineData("chicken \"spicy sauce", 1)]
+    [InlineData("chicken missing", 0)]
+    [InlineData(" \t ", 2)]
+    public async Task BuildIndexAsync_MatchesAllTermsAndPreservesPhrases(string searchTerm, int expectedCount)
+    {
+        var repository = new FakeMenuRepository(
+        [
+            new MenuItem { Id = 1, Name = "Chicken with spicy sauce", Category = "Mains", IsAvailable = true },
+            new MenuItem { Id = 2, Name = "Spicy chicken with sauce", Category = "Mains", IsAvailable = true },
+            new MenuItem { Id = 3, Name = "Chicken with spicy sauce", Category = "Mains", IsAvailable = false },
+            new MenuItem { Id = 4, Name = "Chicken with spicy sauce", Category = "Starters", IsAvailable = true }
+        ]);
+
+        var result = await new MenuIndexService(repository).BuildIndexAsync(searchTerm, "MAINS");
+
+        Assert.Equal(expectedCount, result.MenuItems.Count);
+        Assert.Equal(searchTerm.Trim(), result.SearchTerm);
+        Assert.All(result.MenuItems, item => Assert.True(item.IsAvailable && item.Category == "Mains"));
+    }
+
     [Fact]
     public async Task BuildIndexAsync_FiltersUnavailableItemsAndAppliesSearchAndCategory()
     {

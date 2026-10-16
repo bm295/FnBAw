@@ -1,6 +1,6 @@
-using FnBManagement.Web.Data.Repositories;
-using FnBManagement.Web.Models;
-using FnBManagement.Web.Services;
+using FnBManagement.Web.Application.Abstractions;
+using FnBManagement.Web.Application.Menu;
+using FnBManagement.Web.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FnBManagement.Web.Controllers;

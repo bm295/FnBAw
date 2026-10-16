@@ -1,4 +1,4 @@
-using FnBManagement.Web.Models;
+using FnBManagement.Web.Domain.Entities;
 
 namespace FnBManagement.Web.Tests.Models;
 
